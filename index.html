@@ -39,7 +39,6 @@ export default function App() {
   const [role, setRole] = useState('teen'); // 'teen' | 'parent'
   const [showSettings, setShowSettings] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [showPreviewMenu, setShowPreviewMenu] = useState(false);
   
   // Starting with empty medication details so the teen must enter them
   const [drugName, setDrugName] = useState('');
@@ -562,84 +561,6 @@ export default function App() {
         
         {/* Settings Modal */}
         {showSettings && <SettingsModal />}
-
-        {/* Preview Panel for testing the app */}
-        {showPreviewMenu && (
-          <div className="fixed bottom-16 left-4 bg-slate-800 text-white p-4 rounded-2xl shadow-2xl z-[150] w-64 text-right border border-slate-600 animate-in slide-in-from-bottom-4 duration-300" dir="rtl">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="font-bold text-emerald-400">כלי תצוגה מקדימה (Preview)</h3>
-              <button onClick={() => setShowPreviewMenu(false)} className="text-slate-400 hover:text-white transition-colors"><X size={18}/></button>
-            </div>
-            <p className="text-xs text-slate-300 mb-3">בחרי מצב כדי להדגים את האפליקציה בקלות:</p>
-            <div className="space-y-2">
-              <button 
-                onClick={() => { setPeriodStartDate(null); setPeriodLogs({}); setMedLogs({}); setShowPreviewMenu(false); }}
-                className="w-full text-right px-3 py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-lg text-sm"
-              >
-                1. איפוס (אין מחזור פעיל)
-              </button>
-              <button 
-                onClick={() => { 
-                  setPeriodStartDate(todayStr); 
-                  setPeriodLogs({[todayStr]: true}); 
-                  setMedLogs({}); 
-                  setShowPreviewMenu(false);
-                }}
-                className="w-full text-right px-3 py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-lg text-sm"
-              >
-                2. יום 1 (תחילת המתנה)
-              </button>
-              <button 
-                onClick={() => { 
-                  const d = new Date(); d.setDate(d.getDate() - 14); 
-                  setPeriodStartDate(getLocalDateString(d));
-                  const logs = {};
-                  for(let i=0; i<4; i++) {
-                     const pd = new Date(d); pd.setDate(pd.getDate() + i);
-                     logs[getLocalDateString(pd)] = true;
-                  }
-                  setPeriodLogs(logs);
-                  setMedLogs({});
-                  setShowPreviewMenu(false);
-                }}
-                className="w-full text-right px-3 py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-lg text-sm"
-              >
-                3. יום 14 (מועד נטילת תרופה)
-              </button>
-              <button 
-                onClick={() => { 
-                  const d = new Date(); d.setDate(d.getDate() - 18); 
-                  setPeriodStartDate(getLocalDateString(d)); 
-                  const pLogs = {};
-                  for(let i=0; i<5; i++) {
-                     const pd = new Date(d); pd.setDate(pd.getDate() + i);
-                     pLogs[getLocalDateString(pd)] = true;
-                  }
-                  setPeriodLogs(pLogs);
-                  const mLogs = {};
-                  for(let i=14; i<=17; i++) {
-                     const md = new Date(d); md.setDate(md.getDate() + i);
-                     mLogs[getLocalDateString(md)] = true;
-                  }
-                  setMedLogs(mLogs);
-                  setShowPreviewMenu(false);
-                }}
-                className="w-full text-right px-3 py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-lg text-sm"
-              >
-                4. יום 18 (אמצע נטילת תרופות)
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Floating Preview Toggle */}
-        <button 
-          onClick={() => setShowPreviewMenu(!showPreviewMenu)}
-          className="fixed bottom-4 left-4 z-[140] bg-slate-800 text-emerald-400 px-4 py-2 rounded-full font-bold shadow-lg flex items-center gap-2 hover:bg-slate-700 transition-colors border border-slate-600"
-          title="תפריט להדגמת האפליקציה"
-        >
-          Preview 🛠️
-        </button>
 
       </div>
     </div>
